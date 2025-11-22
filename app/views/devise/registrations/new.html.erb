@@ -1,0 +1,47 @@
+<div class="flex items-center justify-center bg-slate-900">
+  <div class="w-full max-w-md space-y-8 bg-slate-800/60 rounded-3xl border border-slate-700/60 p-10 shadow-2xl">
+    <div class="text-center space-y-2">
+      <h2 class="text-2xl font-semibold text-white tracking-tight">Crear cuenta</h2>
+      <p class="text-sm text-slate-400">Completa tus datos para comenzar</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="space-y-2">
+        <%= f.label :email, class: "block text-sm font-medium text-slate-300" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition" %>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "block text-sm font-medium text-slate-300" %>
+          <% if @minimum_password_length %>
+            <span class="text-xs text-slate-500"><%= @minimum_password_length %> caracteres mínimo</span>
+          <% end %>
+        </div>
+        <%= f.password_field :password, autocomplete: "new-password",
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition" %>
+      </div>
+
+      <div class="space-y-2">
+        <%= f.label :password_confirmation, class: "block text-sm font-medium text-slate-300" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password",
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition" %>
+      </div>
+
+      <div>
+        <%= f.submit "Registrarse",
+            class: "w-full rounded-xl bg-purple-500 hover:bg-purple-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-purple-500/30 transition transform hover:-translate-y-0.5" %>
+      </div>
+    <% end %>
+
+    <div class="text-center text-sm text-slate-400">
+      ¿Ya tienes cuenta?
+      <%= link_to "Inicia sesión", new_session_path(resource_name),
+            class: "font-semibold text-purple-400 hover:text-purple-300" %>
+    </div>
+
+  </div>
+</div>

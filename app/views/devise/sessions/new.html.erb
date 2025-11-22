@@ -1,0 +1,49 @@
+<!-- ...existing code... -->
+<div class=" flex items-center justify-center bg-slate-900">
+  <div class="w-full max-w-md space-y-8 bg-slate-800/60 rounded-3xl border border-slate-700/60 p-10 shadow-2xl">
+    <div class="text-center space-y-2">
+      <h2 class="text-2xl font-semibold text-white tracking-tight">Bienvenido de nuevo</h2>
+      <p class="text-sm text-slate-400">Ingresa con tu cuenta para continuar</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+      
+      <div class="space-y-2">
+        <%= f.label :email, class: "block text-sm font-medium text-slate-300" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email",
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition" %>
+      </div>
+
+      <div class="space-y-2">
+        <div class="flex items-center justify-between">
+          <%= f.label :password, class: "block text-sm font-medium text-slate-300" %>
+          <%= link_to "¿Olvidaste tu contraseña?", new_password_path(resource_name),
+                class: "text-xs font-medium text-blue-400 hover:text-blue-300" %>
+        </div>
+        <%= f.password_field :password, autocomplete: "current-password",
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/50 transition" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="flex items-center justify-between text-sm text-slate-400">
+          <label class="inline-flex items-center gap-2 cursor-pointer">
+            <%= f.check_box :remember_me, class: "rounded border-slate-600 text-blue-500 focus:ring-blue-400" %>
+            Recuérdame
+          </label>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.submit "Iniciar sesión",
+            class: "w-full rounded-xl bg-blue-500 hover:bg-blue-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-0.5" %>
+      </div>
+    <% end %>
+
+    <div class="text-center text-sm text-slate-400">
+      ¿No tienes cuenta?
+      <%= link_to "Regístrate", new_registration_path(resource_name),
+            class: "font-semibold text-blue-400 hover:text-blue-300" %>
+    </div>
+  </div>
+</div>

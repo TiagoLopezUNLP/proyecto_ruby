@@ -1,0 +1,79 @@
+<nav class="bg-slate-800 border-b border-slate-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <%= link_to root_path, class: "flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition duration-300" do %>
+          Inicio
+        <% end %>
+      </div>
+
+
+      <!-- Right Side - Search and User -->
+      <div class="flex items-center space-x-4">
+        <!-- Search -->
+        <div class="hidden md:block relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input type="text" placeholder="Search" 
+                 class="bg-slate-700 text-white placeholder-slate-400 pl-10 pr-4 py-2 rounded-lg text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-slate-600 transition duration-300">
+        </div>
+
+        <!-- Notifications -->
+        <% if user_signed_in? %>
+          <!-- User Avatar and Dropdown -->
+          <div class="relative">
+            <button id="user-menu-button" class="flex items-center space-x-2 text-slate-300 hover:text-white transition duration-300">
+              <img class="h-8 w-8 rounded-full border-2 border-slate-600" 
+                   src="https://ui-avatars.com/api/?name=<%= current_user.email.split('@').first.capitalize %>&background=6366f1&color=ffffff" 
+                   alt="User avatar">
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-700 rounded-lg shadow-lg border border-slate-600 z-50">
+              <div class="py-2">
+                <div class="px-4 py-2 text-sm text-slate-300 border-b border-slate-600">
+                  <%= current_user.email %>
+                </div>
+                <%= link_to "Perfil", "#", class: "block px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" %>
+                <%= link_to "Configuración", edit_user_registration_path, class: "block px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" %>
+                <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, 
+                    class: "block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-600 hover:text-red-300 transition duration-300" %>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <div class="flex items-center space-x-3">
+            <%= link_to "Iniciar sesión", new_user_session_path, 
+                class: "text-slate-400 hover:text-white font-medium transition duration-300" %>
+            <%= link_to "Registrarse", new_user_registration_path, 
+                class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    </div>
+  </div>
+</nav>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const userMenuButton = document.getElementById('user-menu-button');
+  const userDropdown = document.getElementById('user-dropdown');
+  
+  // User dropdown toggle
+  if (userMenuButton && userDropdown) {
+    userMenuButton.addEventListener('click', function(e) {
+      e.stopPropagation();
+      userDropdown.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function() {
+      userDropdown.classList.add('hidden');
+    });
+  }
+});
+</script>
