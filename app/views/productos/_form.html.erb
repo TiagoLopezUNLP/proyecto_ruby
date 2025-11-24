@@ -1,0 +1,97 @@
+<div class="flex items-center justify-center min-h-screen bg-slate-900">
+  <div class="w-full max-w-2xl space-y-8 bg-slate-800/60 rounded-3xl border border-slate-700/60 p-10 shadow-2xl">
+    <div class="text-center space-y-2">
+      <div class="mx-auto h-12 w-12 rounded-full bg-indigo-500/20 flex items-center justify-center">
+        <svg class="h-7 w-7 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-semibold text-white tracking-tight">
+        <%= producto.new_record? ? "Crear Producto" : "Editar Producto" %>
+      </h2>
+      <p class="text-sm text-slate-400">Completa los datos del producto</p>
+    </div>
+
+    <%= form_with(model: producto, class: "space-y-6") do |form| %>
+      <% if producto.errors.any? %>
+        <div class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+          <h3 class="text-sm font-semibold text-red-200 mb-2">
+            <%= pluralize(producto.errors.count, "error") %> impidieron guardar este producto:
+          </h3>
+          <ul class="list-disc list-inside text-sm text-red-300 space-y-1">
+            <% producto.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="space-y-2">
+        <%= form.label :nombre, class: "block text-sm font-medium text-slate-300" %>
+        <%= form.text_field :nombre, 
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+            placeholder: "Nombre del producto" %>
+      </div>
+
+      <div class="space-y-2">
+        <%= form.label :descripcion, class: "block text-sm font-medium text-slate-300" %>
+        <%= form.text_area :descripcion, rows: 4,
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+            placeholder: "Describe el producto..." %>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <%= form.label :precio, class: "block text-sm font-medium text-slate-300" %>
+          <%= form.number_field :precio, step: :any,
+              class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+              placeholder: "0.00" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= form.label :stock, class: "block text-sm font-medium text-slate-300" %>
+          <%= form.number_field :stock,
+              class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+              placeholder: "0" %>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <%= form.label :tipo, class: "block text-sm font-medium text-slate-300" %>
+          <%= form.text_field :tipo,
+              class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+              placeholder: "Ej: Digital, Físico" %>
+        </div>
+
+        <div class="space-y-2">
+          <%= form.label :estado, class: "block text-sm font-medium text-slate-300" %>
+          <%= form.select :estado, 
+              [['Disponible', 'disponible'], ['Agotado', 'agotado'], ['Descontinuado', 'descontinuado']], 
+              { prompt: "Selecciona un estado" },
+              class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition" %>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <%= form.label :categoria_id, "Categoría", class: "block text-sm font-medium text-slate-300" %>
+        <%= form.collection_select :categoria_id, Categorium.all, :id, :nombre, 
+            { prompt: "Selecciona una categoría" },
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition" %>
+      </div>
+
+      <div class="space-y-2">
+        <%= form.label :autor_id, "Autor", class: "block text-sm font-medium text-slate-300" %>
+        <%= form.collection_select :autor_id, Autor.all, :id, :nombre, 
+            { prompt: "Selecciona un autor" },
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition" %>
+      </div>
+
+      <div class="flex items-center justify-between gap-4 pt-4">
+        <%= form.submit class: "w-full rounded-xl bg-indigo-500 hover:bg-indigo-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5" %>
+        <%= link_to "Cancelar", productos_path,
+            class: "w-full text-center rounded-xl bg-slate-700 hover:bg-slate-600 px-4 py-3 text-sm font-semibold text-white transition" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -10,9 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_15_190107) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_22_200700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "autors", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nombre"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "categoria", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "nombre"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "imagens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "producto_id", null: false
+    t.datetime "updated_at", null: false
+    t.text "url"
+    t.index ["producto_id"], name: "index_imagens_on_producto_id"
+  end
+
+  create_table "productos", force: :cascade do |t|
+    t.bigint "autor_id", null: false
+    t.bigint "categoria_id", null: false
+    t.datetime "created_at", null: false
+    t.text "descripcion"
+    t.integer "estado"
+    t.date "fecha_baja"
+    t.date "fecha_ingreso"
+    t.date "fecha_modificacion"
+    t.string "nombre"
+    t.decimal "precio"
+    t.integer "stock"
+    t.integer "tipo"
+    t.datetime "updated_at", null: false
+    t.index ["autor_id"], name: "index_productos_on_autor_id"
+    t.index ["categoria_id"], name: "index_productos_on_categoria_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -21,8 +59,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_15_190107) do
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.string "role"
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "imagens", "productos"
+  add_foreign_key "productos", "autors"
+  add_foreign_key "productos", "categoria", column: "categoria_id"
 end

@@ -24,6 +24,20 @@
 
         <!-- Notifications -->
         <% if user_signed_in? %>
+          <% if current_user.role == "administrador" or current_user.role == "gerente" or current_user.role == "empleado" %>
+            <div>
+              <%= link_to "Usuarios", usuarios_path, 
+                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
+            </div>
+            <div>
+              <%= link_to "Productos", productos_path, 
+                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
+            </div>
+            <div>
+              <%= link_to "Ventas", "#", 
+                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
+            </div>
+          <% end %>
           <!-- User Avatar and Dropdown -->
           <div class="relative">
             <button id="user-menu-button" class="flex items-center space-x-2 text-slate-300 hover:text-white transition duration-300">

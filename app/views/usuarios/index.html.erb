@@ -1,0 +1,10 @@
+<h1>Usuarios del sistema</h1>
+
+<ul>
+  <% @usuarios.each do |usuario| %>
+    <li>
+      <%= usuario.email %>
+      <%= link_to "Ver", usuario_path(usuario) %>
+    </li>
+  <% end %>
+</ul>

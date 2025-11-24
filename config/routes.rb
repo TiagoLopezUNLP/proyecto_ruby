@@ -1,6 +1,15 @@
 Rails.application.routes.draw do
+  resources :imagens
+  resources :productos
+  resources :categoria
+  resources :autors
+  resources :usuarios, only: [:index, :show]
   get "home/index"
-  devise_for :users
+  devise_for :users, path: 'cuentas', path_names: {
+  sign_in: 'iniciar_sesion',
+  sign_out: 'cerrar_sesion',
+  sign_up: 'registrarse'
+}
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
