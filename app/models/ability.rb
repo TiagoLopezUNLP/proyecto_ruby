@@ -25,8 +25,7 @@ class Ability
       can :read, User
     #el cliente puede ver productos y sus propias ventas
     else #cliente
-      can :read,Producto, user_id: user.id
-      #can :read, Venta
+      can :read, user_id: user.id
     end
 
   end

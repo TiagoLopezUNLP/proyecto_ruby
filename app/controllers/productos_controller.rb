@@ -1,10 +1,13 @@
 class ProductosController < ApplicationController
   before_action :authenticate_user!
-  before_action :require_admin
+  load_and_authorize_resource
+  before_action :set_producto, only: %i[ show edit update destroy ]
+
+  
 
   # GET /productos or /productos.json
   def index
-    @productos = Producto.all
+    @productos = Producto.where(fecha_baja: nil)
   end
 
   # GET /productos/1 or /productos/1.json
@@ -24,6 +27,12 @@ class ProductosController < ApplicationController
   def create
     @producto = Producto.new(producto_params)
 
+    # creo un nuevo autor si se ingresó uno en el campo de texto
+    if params[:producto][:nuevo_autor].present?
+      autor = Autor.find_or_create_by(nombre: params[:producto][:nuevo_autor])
+      @producto.autor = autor
+    end
+
     respond_to do |format|
       if @producto.save
         format.html { redirect_to @producto, notice: "Producto Creado." }
@@ -37,6 +46,13 @@ class ProductosController < ApplicationController
 
   # PATCH/PUT /productos/1 or /productos/1.json
   def update
+
+    # creo un nuevo autor si se ingresó uno en el campo de texto
+    if params[:producto][:nuevo_autor].present?
+      autor = Autor.find_or_create_by(nombre: params[:producto][:nuevo_autor])
+      @producto.autor = autor
+    end
+
     respond_to do |format|
       if @producto.update(producto_params)
         format.html { redirect_to @producto, notice: "Producto actualizado.", status: :see_other }
@@ -50,7 +66,12 @@ class ProductosController < ApplicationController
 
   # DELETE /productos/1 or /productos/1.json
   def destroy
-    @producto.destroy!
+    #hago un borrado logico
+    @producto.update(
+      fecha_baja: Time.current,
+      stock: 0,
+    )
+
 
     respond_to do |format|
       format.html { redirect_to productos_path, notice: "Producto Eliminado.", status: :see_other }
@@ -58,14 +79,33 @@ class ProductosController < ApplicationController
     end
   end
 
+  def delete_image
+    imagen = @producto.imagenes.find(params[:imagen_id])
+    imagen.purge
+    redirect_to edit_producto_path(@producto), notice: "Imagen eliminada correctamente."
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_producto
-      @producto = Producto.find(params.expect(:id))
+      @producto = Producto.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def producto_params
-      params.expect(producto: [ :nombre, :descripcion, :precio, :stock, :fecha_ingreso, :fecha_modificacion, :fecha_baja, :tipo, :estado, :autor_id, :categoria_id ])
+      params.require(:producto).permit(
+        :nombre,
+        :descripcion,
+        :precio,
+        :stock,
+        :fecha_ingreso,
+        :fecha_modificacion,
+        :fecha_baja,
+        :tipo,
+        :estado,
+        :autor_id,
+        :categoria_id,
+        imagenes: [] 
+      )
     end
-end
+  end

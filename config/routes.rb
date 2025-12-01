@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   resources :imagens
-  resources :productos
+  resources :productos do
+    member do
+      delete "delete_image/:imagen_id", to: "productos#delete_image", as: :delete_image
+    end
+  end
   resources :categoria
   resources :autors
   resources :usuarios, only: [:index, :show]
