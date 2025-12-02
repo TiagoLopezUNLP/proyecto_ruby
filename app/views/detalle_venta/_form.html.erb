@@ -1,0 +1,42 @@
+<%= form_with(model: detalle_ventum, class: "contents") do |form| %>
+  <% if detalle_ventum.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(detalle_ventum.errors.count, "error") %> prohibited this detalle_ventum from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% detalle_ventum.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :venta_id %>
+    <%= form.text_field :venta_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": detalle_ventum.errors[:venta_id].none?, "border-red-400 focus:outline-red-600": detalle_ventum.errors[:venta_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :producto_id %>
+    <%= form.text_field :producto_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": detalle_ventum.errors[:producto_id].none?, "border-red-400 focus:outline-red-600": detalle_ventum.errors[:producto_id].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :cantidad %>
+    <%= form.number_field :cantidad, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": detalle_ventum.errors[:cantidad].none?, "border-red-400 focus:outline-red-600": detalle_ventum.errors[:cantidad].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :precio_unitario %>
+    <%= form.text_field :precio_unitario, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": detalle_ventum.errors[:precio_unitario].none?, "border-red-400 focus:outline-red-600": detalle_ventum.errors[:precio_unitario].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :subtotal %>
+    <%= form.text_field :subtotal, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": detalle_ventum.errors[:subtotal].none?, "border-red-400 focus:outline-red-600": detalle_ventum.errors[:subtotal].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

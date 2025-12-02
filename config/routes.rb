@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  resources :detalle_venta
+
+  resources :venta, except: [:new, :create] do
+    collection do
+      get 'nueva', to: 'venta#nueva'  # Paso 1: Seleccionar productos
+      post 'agregar_producto', to: 'venta#agregar_producto'
+      delete 'quitar_producto/:producto_id', to: 'venta#quitar_producto', as: :quitar_producto
+      get 'datos_comprador', to: 'venta#datos_comprador'  # Paso 2: Datos del comprador
+      post 'finalizar', to: 'venta#finalizar'  # Crear la venta
+    end
+  end
+  
   resources :imagens
   resources :productos do
     member do

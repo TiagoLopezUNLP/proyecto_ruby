@@ -4,12 +4,11 @@ class User < ApplicationRecord
 
   enum :role,
        {
-         cliente: "cliente",
          administrador: "administrador",
          gerente: "gerente",
          empleado: "empleado"
        },
-       default: "cliente",
+       default: "empleado",
        validate: true
 
   def self.ransackable_attributes(auth_object = nil)

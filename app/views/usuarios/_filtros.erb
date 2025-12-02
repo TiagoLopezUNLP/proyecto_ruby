@@ -17,8 +17,7 @@
             options_for_select([
               ['Administrador', User.roles[:administrador]],
               ['Gerente', User.roles[:gerente]],
-              ['Empleado', User.roles[:empleado]],
-              ['Cliente', User.roles[:cliente]]
+              ['Empleado', User.roles[:empleado]]
             ], params.dig(:q, :role_eq)),
             { include_blank: "Todos" },
             class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm" %>

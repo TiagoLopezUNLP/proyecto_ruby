@@ -7,6 +7,9 @@ class Producto < ApplicationRecord
   has_many_attached :imagenes
   has_one_attached :audio_muestra
 
+  has_many :detalle_ventas
+  has_many :ventas, through: :detalle_ventas
+
   validates :nombre, presence: true
   validates :precio, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }

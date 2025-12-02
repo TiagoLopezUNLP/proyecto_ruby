@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_01_190858) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_02_204022) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,27 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_01_190858) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "detalle_venta", force: :cascade do |t|
+    t.integer "cantidad"
+    t.datetime "created_at", null: false
+    t.decimal "precio_unitario"
+    t.bigint "producto_id", null: false
+    t.decimal "subtotal"
+    t.datetime "updated_at", null: false
+    t.bigint "venta_id", null: false
+    t.index ["producto_id"], name: "index_detalle_venta_on_producto_id"
+    t.index ["venta_id"], name: "index_detalle_venta_on_venta_id"
+  end
+
+  create_table "producto_imagens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "portada"
+    t.integer "position"
+    t.bigint "producto_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["producto_id"], name: "index_producto_imagens_on_producto_id"
+  end
+
   create_table "productos", force: :cascade do |t|
     t.bigint "autor_id", null: false
     t.bigint "categoria_id", null: false
@@ -85,8 +106,23 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_01_190858) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "venta", force: :cascade do |t|
+    t.text "NyA_comprador"
+    t.datetime "created_at", null: false
+    t.integer "dni_comprador"
+    t.date "fecha"
+    t.decimal "total"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_venta_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "detalle_venta", "productos"
+  add_foreign_key "detalle_venta", "venta", column: "venta_id"
+  add_foreign_key "producto_imagens", "productos"
   add_foreign_key "productos", "autors"
   add_foreign_key "productos", "categoria", column: "categoria_id"
+  add_foreign_key "venta", "users"
 end

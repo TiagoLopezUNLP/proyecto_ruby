@@ -1,0 +1,107 @@
+<!-- filepath: c:\Users\Tiago\ejemplo_ruby\app\views\venta\nueva.html.erb -->
+<div class="min-h-screen bg-slate-900 py-12 px-4">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-white mb-2">Nueva Venta</h1>
+      <p class="text-slate-400">Paso 1: Selecciona los productos</p>
+    </div>
+
+    <!-- Carrito de compras -->
+    <% if session[:carrito].present? %>
+      <div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 p-6 mb-8">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-semibold text-white flex items-center gap-2">
+            <svg class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Carrito (<%= session[:carrito].sum { |item| item['cantidad'] } %> productos)
+          </h2>
+          <div class="text-right">
+            <p class="text-sm text-slate-400">Total</p>
+            <p class="text-3xl font-bold text-indigo-400">
+              $<%= number_with_precision(session[:carrito].sum { |item| item['precio'].to_f * item['cantidad'] }, precision: 2) %>
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <% @carrito_productos.each do |producto| %>
+            <% item = session[:carrito].find { |i| i['producto_id'] == producto.id } %>
+            <div class="flex items-center justify-between bg-slate-900/50 rounded-xl p-4 border border-slate-700">
+              <div class="flex items-center gap-4">
+                <% if producto.imagenes.attached? %>
+                  <%= image_tag producto.imagenes.first, class: "w-16 h-16 object-cover rounded-lg" %>
+                <% end %>
+                <div>
+                  <h3 class="text-white font-semibold"><%= producto.nombre %></h3>
+                  <p class="text-sm text-slate-400">
+                    <%= item['cantidad'] %> x $<%= number_with_precision(item['precio'], precision: 2) %>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <p class="text-xl font-bold text-white">
+                  $<%= number_with_precision(item['precio'].to_f * item['cantidad'], precision: 2) %>
+                </p>
+                <%= button_to quitar_producto_venta_path(producto_id: producto.id),
+                    method: :delete,
+                    data: { turbo_confirm: "¿Eliminar este producto?" },
+                    class: "text-red-400 hover:text-red-300 transition" do %>
+                  <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="mt-6">
+          <%= link_to "Continuar con la compra →", datos_comprador_venta_path,
+              class: "w-full block text-center rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-lg font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5" %>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Búsqueda y filtros -->
+    <%= render "shared/filtrosProducto", path: nueva_venta_path %>
+
+    <!-- Lista de productos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+      <% @productos.each do |producto| %>
+        <div class="bg-slate-800/60 rounded-2xl border border-slate-700/60 overflow-hidden shadow-xl hover:shadow-2xl transition">
+          <div class="relative h-48 bg-gradient-to-br from-indigo-500/20 to-purple-500/20">
+            <% if producto.imagenes.attached? %>
+              <%= image_tag producto.imagenes.first, class: "w-full h-full object-cover" %>
+            <% end %>
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-white mb-2"><%= producto.nombre %></h3>
+            <p class="text-2xl font-bold text-indigo-400 mb-3">
+              $<%= number_with_precision(producto.precio, precision: 2) %>
+            </p>
+            <p class="text-sm text-slate-400 mb-4">Stock: <%= producto.stock %></p>
+
+            <%= form_with url: agregar_producto_venta_path, method: :post, class: "space-y-3" do |f| %>
+              <%= f.hidden_field :producto_id, value: producto.id %>
+              <div>
+                <%= f.number_field :cantidad,
+                    value: 1,
+                    min: 1,
+                    max: producto.stock,
+                    class: "w-full rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-2 text-slate-100" %>
+              </div>
+              <%= f.submit "Agregar al carrito",
+                  class: "w-full rounded-lg bg-indigo-500 hover:bg-indigo-400 px-4 py-2 text-sm font-semibold text-white transition" %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Paginación -->
+    <%= render partial: "shared/paginacion", locals: { coleccion: @productos } %>
+  </div>
+</div>

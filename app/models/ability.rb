@@ -21,11 +21,14 @@ class Ability
 
     #el empleado puede gestionar productos y ventas y leer usuarios
     elsif user.empleado?
-      can :manage, [Producto]
+      can :manage, [Producto, Ventum, DetalleVentum] 
       can :read, User
+      can :read, user_id: user.id
     #el cliente puede ver productos y sus propias ventas
     else #cliente
       can :read, user_id: user.id
+      can :read, Producto
+      can :read, Venta, user_id: user.id
     end
 
   end

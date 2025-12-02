@@ -1,0 +1,32 @@
+<!-- filepath: c:\Users\Tiago\ejemplo_ruby\app\views\venta\datos_comprador.html.erb -->
+<div class="flex items-center justify-center min-h-screen bg-slate-900 py-12">
+  <div class="w-full max-w-4xl space-y-8 px-4">
+    <% if flash[:alert] %>
+      <div class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+        <p class="text-sm text-red-300"><%= flash[:alert] %></p>
+      </div>
+    <% end %>
+    <!-- Resumen del carrito -->
+    <div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 p-8 shadow-2xl">
+      <h2 class="text-2xl font-semibold text-white mb-6">Resumen de la compra</h2>
+      
+      <div class="space-y-3 mb-6">
+        <% @carrito_productos.each do |producto| %>
+          <% item = session[:carrito].find { |i| i['producto_id'] == producto.id } %>
+          <div class="flex justify-between items-center text-slate-300 border-b border-slate-700 pb-3">
+            <span><%= producto.nombre %> x <%= item['cantidad'] %></span>
+            <span class="font-semibold">$<%= number_with_precision(item['precio'].to_f * item['cantidad'], precision: 2) %></span>
+          </div>
+        <% end %>
+      </div>
+      
+      <div class="flex justify-between items-center text-2xl font-bold text-white border-t border-slate-600 pt-4">
+        <span>Total:</span>
+        <span class="text-indigo-400">$<%= number_with_precision(@total, precision: 2) %></span>
+      </div>
+    </div>
+
+    <!-- Formulario de datos del comprador -->
+    <%= render "form", ventum: @ventum %>
+  </div>
+</div>
