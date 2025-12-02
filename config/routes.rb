@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
   resources :categoria
   resources :autors
-  resources :usuarios, only: [:index, :show]
+  resources :usuarios
   get "home/index"
   devise_for :users, path: 'cuentas', path_names: {
   sign_in: 'iniciar_sesion',

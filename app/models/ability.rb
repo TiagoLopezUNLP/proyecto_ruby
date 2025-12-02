@@ -12,7 +12,7 @@ class Ability
       can :manage, :all
     #el gerente puede gestionar productos, ventas y usuarios no administradores
     elsif user.gerente?
-      can :manage, [Producto, Venta, User]
+      can :manage, [Producto, User]
 
       #restricciones para el gerente sobre usuarios administradores
       cannot :create, User, role: "administrador"
@@ -21,7 +21,7 @@ class Ability
 
     #el empleado puede gestionar productos y ventas y leer usuarios
     elsif user.empleado?
-      can :manage, [Producto, Venta]
+      can :manage, [Producto]
       can :read, User
     #el cliente puede ver productos y sus propias ventas
     else #cliente

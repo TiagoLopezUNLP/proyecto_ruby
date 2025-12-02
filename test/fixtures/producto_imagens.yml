@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  producto: one
+  attachment: one
+  position: 1
+  portada: false
+
+two:
+  producto: two
+  attachment: two
+  position: 1
+  portada: false
