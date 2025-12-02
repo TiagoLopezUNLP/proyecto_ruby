@@ -4,7 +4,8 @@ class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
 
   def index
-    @usuarios = User.all
+    @q = User.ransack(params[:q])
+    @usuarios = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
   end
 
   def show

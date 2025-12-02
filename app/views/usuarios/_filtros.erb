@@ -1,0 +1,38 @@
+<div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 shadow-2xl p-6 mb-8">
+  <%= search_form_for @q, url: usuarios_path, method: :get, html: { class: "space-y-4" } do |f| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+      
+      <!-- FILTRO POR NOMBRE -->
+      <div class="space-y-2">
+        <%= f.label :email_cont, "Buscar por email", class: "block text-sm font-medium text-slate-300" %>
+        <%= f.search_field :email_cont, 
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm",
+            placeholder: "Email del usuario" %>
+      </div>
+
+      <!-- FILTRO POR ROL -->
+      <div class="space-y-2">
+        <%= f.label :role_eq, "Rol", class: "block text-sm font-medium text-slate-300" %>
+        <%= f.select :role_eq, 
+            options_for_select([
+              ['Administrador', User.roles[:administrador]],
+              ['Gerente', User.roles[:gerente]],
+              ['Empleado', User.roles[:empleado]],
+              ['Cliente', User.roles[:cliente]]
+            ], params.dig(:q, :role_eq)),
+            { include_blank: "Todos" },
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm" %>
+      </div>
+
+    </div>
+
+    <!-- BOTONES -->
+    <div class="flex gap-3 justify-end">
+      <%= link_to "Limpiar", usuarios_path, 
+          class: "rounded-xl bg-slate-700 hover:bg-slate-600 px-6 py-2 text-sm font-semibold text-white transition" %>
+      <%= f.submit "Filtrar", 
+          class: "rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition" %>
+    </div>
+
+  <% end %>
+</div>

@@ -74,3 +74,5 @@ gem "tailwindcss-rails", "~> 4.4"
 gem "ransack", "~> 4.4"
 
 gem "will_paginate", "~> 4.0"
+
+gem "active_storage_validations"

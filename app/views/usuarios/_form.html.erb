@@ -31,6 +31,7 @@
         <%= form.email_field :email, 
             class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
             placeholder: "usuario@ejemplo.com",
+            required: true,
             autocomplete: "email" %>
       </div>
 
@@ -39,6 +40,7 @@
         <%= form.password_field :password, 
             class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
             placeholder: usuario.new_record? ? "Mínimo 6 caracteres" : "Dejar vacío para no cambiar",
+            required: true,
             autocomplete: "new-password" %>
         <% unless usuario.new_record? %>
           <p class="text-xs text-slate-500 mt-1">Solo completa este campo si deseas cambiar la contraseña</p>
@@ -50,6 +52,7 @@
         <%= form.password_field :password_confirmation, 
             class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
             placeholder: "Repite la contraseña",
+            required: true,
             autocomplete: "new-password" %>
       </div>
 

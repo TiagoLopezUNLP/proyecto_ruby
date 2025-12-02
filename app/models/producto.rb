@@ -5,11 +5,23 @@ class Producto < ApplicationRecord
   belongs_to :autor
   belongs_to :categoria, class_name: 'Categorium', foreign_key: 'categoria_id'
   has_many_attached :imagenes
+  has_one_attached :audio_muestra
 
   validates :nombre, presence: true
   validates :precio, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }
-
+  
+  # Validaciones de Active Storage
+  validates :imagenes, 
+    content_type: { in: ['image/png', 'image/jpeg'], message: 'debe ser PNG, JPG o JPEG' },
+    size: { less_than: 5.megabytes, message: 'debe ser menor a 5MB' },
+    if: -> { imagenes.attached? }
+  
+  validates :audio_muestra,
+    content_type: { in: ['audio/mpeg'], message: 'debe ser MP3' },
+    size: { less_than: 10.megabytes, message: 'debe ser menor a 10MB' },
+    if: -> { audio_muestra.attached? }
+    
   before_create :set_fecha_ingreso
   before_update :set_fecha_modificacion
 

@@ -59,6 +59,27 @@
       <p class="text-slate-400 leading-relaxed"><%= producto.descripcion %></p>
     </div>
 
+     <!-- Audio de Muestra (si existe) -->
+    <% if producto.audio_muestra.attached? %>
+      <div class="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-xl p-6 border border-indigo-500/30">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="h-10 w-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
+            <svg class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold text-white">Audio de Muestra</h3>
+            <p class="text-sm text-slate-400">Escucha una vista previa del producto</p>
+          </div>
+        </div>
+        <audio controls preload="metadata" class="w-full">
+          <source src="<%= url_for(producto.audio_muestra) %>" type="audio/mpeg">
+          Tu navegador no soporta el elemento de audio.
+        </audio>
+      </div>
+    <% end %>
+
     <!-- Detalles en grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="bg-slate-900/50 rounded-xl p-4 border border-slate-700">

@@ -1,7 +1,7 @@
 class ProductosController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :set_producto, only: %i[ show edit update destroy ]
+  before_action :set_producto, only: %i[ show edit update destroy delete_image ]
 
   
 
@@ -10,7 +10,7 @@ class ProductosController < ApplicationController
     #utilizo ransack para busqueda y filtros
     @q = Producto.activos.ransack(params[:q])
     #utilizo will_paginate para paginacion
-    @productos = @q.result(distinct: true).paginate(page: params[:page], per_page: 1)
+    @productos = @q.result(distinct: true).paginate(page: params[:page], per_page: 15)
   end
 
   # GET /productos/1 or /productos/1.json
@@ -49,23 +49,32 @@ class ProductosController < ApplicationController
 
   # PATCH/PUT /productos/1 or /productos/1.json
   def update
+  # creo un nuevo autor si se ingresó uno en el campo de texto
+  if params[:producto][:nuevo_autor].present?
+    autor = Autor.find_or_create_by(nombre: params[:producto][:nuevo_autor])
+    @producto.autor = autor
+  end
 
-    # creo un nuevo autor si se ingresó uno en el campo de texto
-    if params[:producto][:nuevo_autor].present?
-      autor = Autor.find_or_create_by(nombre: params[:producto][:nuevo_autor])
-      @producto.autor = autor
-    end
+  # Separar las imágenes
+  update_params = producto_params
+  nuevas_imagenes = update_params.delete(:imagenes)
 
-    respond_to do |format|
-      if @producto.update(producto_params)
-        format.html { redirect_to @producto, notice: "Producto actualizado.", status: :see_other }
-        format.json { render :show, status: :ok, location: @producto }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @producto.errors, status: :unprocessable_entity }
+  respond_to do |format|
+    if @producto.update(update_params)
+      # Agregar nuevas imágenes por separado para no perder las actuales
+      if nuevas_imagenes.present?
+        imagenes_validas = nuevas_imagenes.reject(&:blank?)
+        @producto.imagenes.attach(imagenes_validas) if imagenes_validas.any?
       end
+      
+      format.html { redirect_to productos_path, notice: "Producto actualizado.", status: :see_other }
+      format.json { render :show, status: :ok, location: @producto }
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @producto.errors, status: :unprocessable_entity }
     end
   end
+end
 
   # DELETE /productos/1 or /productos/1.json
   def destroy
@@ -108,6 +117,7 @@ class ProductosController < ApplicationController
         :estado,
         :autor_id,
         :categoria_id,
+        :audio_muestra,
         imagenes: [] 
       )
     end
