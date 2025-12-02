@@ -7,7 +7,10 @@ class ProductosController < ApplicationController
 
   # GET /productos or /productos.json
   def index
-    @productos = Producto.where(fecha_baja: nil)
+    #utilizo ransack para busqueda y filtros
+    @q = Producto.activos.ransack(params[:q])
+    #utilizo will_paginate para paginacion
+    @productos = @q.result(distinct: true).paginate(page: params[:page], per_page: 1)
   end
 
   # GET /productos/1 or /productos/1.json
