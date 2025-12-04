@@ -1,22 +1,45 @@
-<%= form_with(model: categorium, class: "contents") do |form| %>
-  <% if categorium.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
-      <h2><%= pluralize(categorium.errors.count, "error") %> prohibited this categorium from being saved:</h2>
-
-      <ul class="list-disc ml-6">
-        <% categorium.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<div class="flex items-center justify-center min-h-screen bg-slate-900">
+  <div class="w-full max-w-2xl space-y-8 bg-slate-800/60 rounded-3xl border border-slate-700/60 p-10 shadow-2xl">
+    <div class="text-center space-y-2">
+      <div class="mx-auto h-12 w-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+        <svg class="h-7 w-7 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-semibold text-white tracking-tight">
+        <%= categorium.new_record? ? "Crear Categoría" : "Editar Categoría" %>
+      </h2>
+      <p class="text-sm text-slate-400">Completa los datos de la categoría</p>
     </div>
-  <% end %>
 
-  <div class="my-5">
-    <%= form.label :nombre %>
-    <%= form.text_field :nombre, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": categorium.errors[:nombre].none?, "border-red-400 focus:outline-red-600": categorium.errors[:nombre].any?}] %>
-  </div>
+    <%= form_with(model: categorium, class: "space-y-6") do |form| %>
+      <% if categorium.errors.any? %>
+        <div class="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3">
+          <h3 class="text-sm font-semibold text-red-200 mb-2">
+            <%= pluralize(categorium.errors.count, "error") %> impidieron guardar esta categoría:
+          </h3>
+          <ul class="list-disc list-inside text-sm text-red-300 space-y-1">
+            <% categorium.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <div class="inline">
-    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+      <div class="space-y-2">
+        <%= form.label :nombre, class: "block text-sm font-medium text-slate-300" %>
+        <%= form.text_field :nombre, 
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/50 transition",
+            placeholder: "Nombre de la categoría",
+            required: true %>
+      </div>
+
+      <div class="flex items-center justify-between gap-4 pt-4">
+        <%= form.submit categorium.new_record? ? "Crear Categoría" : "Actualizar Categoría", 
+            class: "w-full rounded-xl bg-indigo-500 hover:bg-indigo-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5" %>
+        <%= link_to "Cancelar", categoria_path,
+            class: "w-full text-center rounded-xl bg-slate-700 hover:bg-slate-600 px-4 py-3 text-sm font-semibold text-white transition" %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>
