@@ -1,12 +1,6 @@
 <!-- filepath: c:\Users\Tiago\ejemplo_ruby\app\views\productos\show.html.erb -->
 <div class="min-h-screen bg-slate-900 py-8">
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Mensaje de notificación -->
-    <% if notice.present? %>
-      <div class="mb-6 rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-3">
-        <p class="text-sm text-green-200"><%= notice %></p>
-      </div>
-    <% end %>
 
     <!-- Renderizar el producto -->
     <%= render @producto %>

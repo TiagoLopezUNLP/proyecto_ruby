@@ -214,7 +214,8 @@
       </div>
 
       <div class="flex items-center justify-between gap-4 pt-4">
-        <%= form.submit class: "w-full rounded-xl bg-indigo-500 hover:bg-indigo-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5" %>
+        <%= form.submit producto.new_record? ? "Crear Producto" : "Aplicar Edición",
+            class: "w-full rounded-xl bg-indigo-500 hover:bg-indigo-400 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5" %>
         <%= link_to "Cancelar", productos_path,
             class: "w-full text-center rounded-xl bg-slate-700 hover:bg-slate-600 px-4 py-3 text-sm font-semibold text-white transition" %>
       </div>
