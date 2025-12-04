@@ -1,29 +1,44 @@
-<% content_for :title, "Autors" %>
+<% content_for :title, "Artistas" %>
 
-<div class="w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
-
-  <div class="flex justify-between items-center">
-    <h1 class="font-bold text-4xl">Autors</h1>
-    <%= link_to "New autor", new_autor_path, class: "rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white block font-medium" %>
-  </div>
-
-  <div id="autors" class="min-w-full divide-y divide-gray-200 space-y-5">
-    <% if @autors.any? %>
-      <% @autors.each do |autor| %>
-        <div class="flex flex-col sm:flex-row justify-between items-center pb-5 sm:pb-0">
-          <%= render autor %>
-          <div class="w-full sm:w-auto flex flex-col sm:flex-row space-x-2 space-y-2">
-            <%= link_to "Show", autor, class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= link_to "Edit", edit_autor_path(autor), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-            <%= button_to "Destroy", autor, method: :delete, class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
-          </div>
-        </div>
+<div class="min-h-screen bg-slate-900 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-white">Artistas</h1>
+        <p class="text-slate-400 mt-1">Gestiona los artistas del catálogo</p>
+      </div>
+      <%= link_to new_autor_path, class: "rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-2" do %>
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Crear Artista
       <% end %>
+    </div>
+
+    <% if @autors.any? %>
+      <div class="space-y-4">
+        <% @autors.each do |autor| %>
+          <div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 shadow-2xl hover:border-indigo-500/50 transition duration-300 overflow-hidden">
+            <div class="flex items-center p-4 sm:p-6">
+              <div class="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-indigo-500/20 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                <svg class="h-6 w-6 sm:h-7 sm:w-7 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <div class="text-sm sm:text-base font-medium text-white"><%= autor.nombre %></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% else %>
-      <p class="text-center my-10">No autors found.</p>
+      <div class="text-center py-16 bg-slate-800/60 rounded-3xl border border-slate-700/60">
+        <svg class="mx-auto h-12 w-12 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <h3 class="mt-4 text-lg font-medium text-slate-300">No hay artistas</h3>
+        <p class="mt-2 text-sm text-slate-500">Comienza creando tu primer artista.</p>
+        <%= link_to "Crear Artista", new_autor_path, class: "mt-6 inline-flex items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white transition" %>
+      </div>
     <% end %>
   </div>
 </div>
