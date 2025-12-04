@@ -1,22 +1,41 @@
-<div id="<%= dom_id ventum %>" class="w-full sm:w-auto my-5 space-y-5">
-  <div>
-    <strong class="block font-medium mb-1">Fecha:</strong>
-    <%= ventum.fecha %>
+<div id="<%= dom_id ventum %>" class="space-y-6">
+  <!-- Información del comprador -->
+  <div class="bg-slate-900 rounded-lg p-6">
+    <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+      <svg class="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+      </svg>
+      Datos del comprador
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-slate-400 mb-1">Nombre y Apellido</p>
+        <p class="text-white font-medium"><%= ventum.NyA_comprador.present? ? ventum.NyA_comprador : 'No especificado' %></p>
+      </div>
+      <div>
+        <p class="text-sm text-slate-400 mb-1">DNI</p>
+        <p class="text-white font-medium"><%= ventum.dni_comprador.present? ? ventum.dni_comprador : 'No especificado' %></p>
+      </div>
+    </div>
   </div>
-  <div>
-    <strong class="block font-medium mb-1">Total:</strong>
-    <%= ventum.total %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Empleado:</strong>
-    <%= ventum.user_id %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Dni comprador:</strong>
-    <%= ventum.dni_comprador %>
-  </div>
-  <div>
-    <strong class="block font-medium mb-1">Nya comprador:</strong>
-    <%= ventum.NyA_comprador %>
+
+  <!-- Información de la venta -->
+  <div class="bg-slate-900 rounded-lg p-6">
+    <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+      <svg class="w-5 h-5 mr-2 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      Información de la venta
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <p class="text-sm text-slate-400 mb-1">Atendido por</p>
+        <p class="text-white font-medium"><%= ventum.user.email if ventum.user %></p>
+      </div>
+      <div>
+        <p class="text-sm text-slate-400 mb-1">Total de la venta</p>
+        <p class="text-2xl font-bold text-green-400">$<%= number_with_delimiter(ventum.total, delimiter: '.') %></p>
+      </div>
+    </div>
   </div>
 </div>
