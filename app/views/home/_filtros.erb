@@ -1,0 +1,117 @@
+<div class="bg-slate-800 rounded-lg shadow-lg p-6 mb-8 border border-slate-700">
+  <%= search_form_for @q, url: root_path, method: :get, class: "space-y-6" do |f| %>
+    <!-- Primera fila de filtros -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Búsqueda por nombre/título -->
+      <div>
+        <%= f.label :nombre_cont, "Título del álbum", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.search_field :nombre_cont, 
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            placeholder: "Buscar por título..." %>
+      </div>
+      
+      <!-- Búsqueda por artista -->
+      <div>
+        <%= f.label :autor_nombre_cont, "Artista", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.search_field :autor_nombre_cont,
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            placeholder: "Buscar por artista..." %>
+      </div>
+      
+      <!-- Tipo de producto -->
+      <div>
+        <%= f.label :tipo_eq, "Formato", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.select :tipo_eq,
+            options_for_select([
+              ['Todos', ''],
+              ['Vinilo', 0],
+              ['CD', 1]
+            ], params.dig(:q, :tipo_eq)),
+            {},
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+      
+      <!-- Estado del producto -->
+      <div>
+        <%= f.label :estado_eq, "Estado", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.select :estado_eq,
+            options_for_select([
+              ['Todos', ''],
+              ['Nuevo', 0],
+              ['Usado', 1]
+            ], params.dig(:q, :estado_eq)),
+            {},
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+      </div>
+    </div>
+    
+    <!-- Segunda fila de filtros -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Género/Categoría -->
+      <div>
+        <%= f.label :categoria_nombre_cont, "Género Musical", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.search_field :categoria_nombre_cont,
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            placeholder: "Rock, Pop, Jazz..." %>
+      </div>
+      
+      <!-- Rango de precio mínimo -->
+      <div>
+        <%= f.label :precio_gteq, "Precio mínimo", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.number_field :precio_gteq,
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            placeholder: "$ 0",
+            min: 0,
+            step: 0.01 %>
+      </div>
+      
+      <!-- Rango de precio máximo -->
+      <div>
+        <%= f.label :precio_lteq, "Precio máximo", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.number_field :precio_lteq,
+            class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            placeholder: "$ 999999",
+            min: 0,
+            step: 0.01 %>
+      </div>
+      
+      <!-- Solo productos con stock -->
+      <div class="flex items-end">
+        <label class="flex items-center space-x-3 cursor-pointer h-[42px]">
+          <%= f.check_box :stock_gt, 
+              { class: "w-5 h-5 bg-slate-700 border-slate-600 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-800" }, 
+              '0', '' %>
+          <span class="text-sm font-medium text-slate-300">Solo con stock disponible</span>
+        </label>
+      </div>
+    </div>
+    
+    <!-- Botones de acción -->
+    <div class="flex flex-wrap gap-3 pt-2">
+      <%= f.submit "Buscar", 
+          class: "px-6 py-2.5 bg-indigo-400 hover:bg-indigo-600 text-white font-medium rounded-lg transition duration-300 shadow-lg hover:shadow-xl" %>
+      <%= link_to "Limpiar filtros", 
+          root_path, 
+          class: "px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition duration-300 border border-slate-600" %>
+      
+      <!-- Ordenamiento -->
+      <div class="ml-auto flex items-center gap-3">
+        <%= f.label :s, "Ordenar por:", class: "text-sm font-medium text-slate-300" %>
+        <%= f.select :s,
+            options_for_select([
+              ['Más recientes', 'created_at desc'],
+              ['Más antiguos', 'created_at asc'],
+              ['Precio: menor a mayor', 'precio asc'],
+              ['Precio: mayor a menor', 'precio desc'],
+              ['Nombre A-Z', 'nombre asc'],
+              ['Nombre Z-A', 'nombre desc']
+            ], params.dig(:q, :s)),
+            {},
+            class: "bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500",
+            onchange: "this.form.submit();" %>
+      </div>
+    </div>
+  <% end %>
+</div>
