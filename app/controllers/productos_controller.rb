@@ -1,6 +1,6 @@
 class ProductosController < ApplicationController
-  before_action :authenticate_user!
-  load_and_authorize_resource
+  before_action :authenticate_user!, except: [:show]
+  load_and_authorize_resource except: [:show]
   before_action :set_producto, only: %i[ show edit update destroy delete_image ]
 
   
@@ -14,7 +14,14 @@ class ProductosController < ApplicationController
   end
 
   # GET /productos/1 or /productos/1.json
+  # Accesible públicamente para el storefront
   def show
+    @productos_relacionados = @producto.productos_relacionados.limit(4)
+    # Si el usuario no está autenticado, renderiza la vista del storefront
+    if !user_signed_in?
+      render 'home/show'
+    end
+    # Si está autenticado, renderiza la vista administrativa normal
   end
 
   # GET /productos/new

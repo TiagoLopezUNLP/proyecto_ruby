@@ -89,7 +89,7 @@ class VentaController < ApplicationController
     @ventum = Ventum.new(ventum_params)
     @ventum.user_id = current_user.id
     @ventum.total = calcular_total
-    @ventum.fecha = Date.today
+    @ventum.fecha = Time.current
     
     # Cargar variables necesarias para la vista en caso de error
     @carrito_productos = Producto.where(id: session[:carrito].map { |item| item['producto_id'] })

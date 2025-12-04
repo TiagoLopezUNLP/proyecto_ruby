@@ -4,7 +4,7 @@ class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
 
   def index
-    @q = User.ransack(params[:q])
+    @q = User.where.not(id: current_user.id).ransack(params[:q])
     @usuarios = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
   end
 

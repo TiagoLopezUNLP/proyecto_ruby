@@ -25,7 +25,7 @@ class AutorsController < ApplicationController
 
     respond_to do |format|
       if @autor.save
-        format.html { redirect_to @autor, notice: "Autor was successfully created." }
+        format.html { redirect_to autors_path, notice: "Artista creado exitosamente." }
         format.json { render :show, status: :created, location: @autor }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class AutorsController < ApplicationController
   def update
     respond_to do |format|
       if @autor.update(autor_params)
-        format.html { redirect_to @autor, notice: "Autor was successfully updated.", status: :see_other }
+        format.html { redirect_to autors_path, notice: "Artista actualizado exitosamente.", status: :see_other }
         format.json { render :show, status: :ok, location: @autor }
       else
         format.html { render :edit, status: :unprocessable_entity }
