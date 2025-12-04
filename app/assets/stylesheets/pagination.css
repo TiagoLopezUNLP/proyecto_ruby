@@ -1,0 +1,59 @@
+/* Estilos personalizados para Will Paginate */
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination a,
+.pagination span.current,
+.pagination span.gap {
+  display: inline-block;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.pagination a {
+  background-color: rgb(51 65 85); /* slate-700 */
+  color: rgb(203 213 225); /* slate-300 */
+  border: 1px solid rgb(71 85 105); /* slate-600 */
+}
+
+.pagination a:hover {
+  background-color: rgb(71 85 105); /* slate-600 */
+  color: white;
+  border-color: rgb(59 130 246); /* blue-500 */
+}
+
+.pagination span.current {
+  background-color: rgb(37 99 235); /* blue-600 */
+  color: white;
+  border: 1px solid rgb(37 99 235);
+  font-weight: 600;
+}
+
+.pagination span.gap {
+  background-color: transparent;
+  color: rgb(148 163 184); /* slate-400 */
+  border: none;
+}
+
+.pagination .previous_page,
+.pagination .next_page {
+  font-weight: 600;
+}
+
+.pagination .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgb(51 65 85);
+  color: rgb(100 116 139); /* slate-500 */
+}
+
+.pagination .disabled:hover {
+  background-color: rgb(51 65 85);
+  border-color: rgb(71 85 105);
+}

@@ -1,93 +1,233 @@
 <nav class="bg-slate-800 border-b border-slate-700">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between h-16">
-      <!-- Logo -->
+      <!-- Logo y nombre -->
       <div class="flex items-center">
-        <%= link_to root_path, class: "flex items-center space-x-2 text-blue-400 hover:text-blue-300 transition duration-300" do %>
-          Inicio
+        <%= link_to root_path, class: "flex items-center space-x-1.5 text-indigo-400 hover:text-indigo-300 transition duration-300" do %>
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+          </svg>
+          <span class="text-xl font-bold">Disquería</span>
         <% end %>
       </div>
-
-
-      <!-- Right Side - Search and User -->
-      <div class="flex items-center space-x-4">
-        <!-- Search -->
-        <div class="hidden md:block relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-4">
+        <% if user_signed_in? && (current_user.administrador? || current_user.gerente? || current_user.empleado?) %>
+          <div class="flex space-x-1">
+            <%= link_to productos_path, 
+                class: "px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition duration-300" do %>
+              Productos
+            <% end %>
+            
+            <%= link_to venta_path, 
+                class: "px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition duration-300" do %>
+              Ventas
+            <% end %>
+            
+            <% if current_user.administrador? || current_user.gerente? %>
+              <%= link_to usuarios_path, 
+                  class: "px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition duration-300" do %>
+                Usuarios
+              <% end %>
+            <% end %>
+            
+            <%= link_to autors_path, 
+                class: "px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition duration-300" do %>
+              Artistas
+            <% end %>
+            
+            <%= link_to categoria_path, 
+                class: "px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-700 transition duration-300" do %>
+              Categorías
+            <% end %>
           </div>
-          <input type="text" placeholder="Search" 
-                 class="bg-slate-700 text-white placeholder-slate-400 pl-10 pr-4 py-2 rounded-lg text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-slate-600 transition duration-300">
-        </div>
-
-        <!-- Notifications -->
+        <% end %>
+        
+        <!-- Desktop User Menu -->
         <% if user_signed_in? %>
-          <% if current_user.role == "administrador" or current_user.role == "gerente" or current_user.role == "empleado" %>
-            <div>
-              <%= link_to "Usuarios", usuarios_path, 
-                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
-            </div>
-            <div>
-              <%= link_to "Productos", productos_path, 
-                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
-            </div>
-            <div>
-              <%= link_to "Ventas", venta_path, 
-                  class: "ml-4 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
-            </div>
-          <% end %>
-          <!-- User Avatar and Dropdown -->
-          <div class="relative">
-            <button id="user-menu-button" class="flex items-center space-x-2 text-slate-300 hover:text-white transition duration-300">
-              <img class="h-8 w-8 rounded-full border-2 border-slate-600" 
-                   src="https://ui-avatars.com/api/?name=<%= current_user.email.split('@').first.capitalize %>&background=6366f1&color=ffffff" 
+          <div class="relative z-50">
+            <button id="user-menu-button" type="button" 
+                    onclick="event.stopPropagation(); document.getElementById('user-dropdown').classList.toggle('hidden')"
+                    class="flex items-center space-x-2 text-slate-300 hover:text-white transition duration-300 focus:outline-none">
+              <img class="h-9 w-9 rounded-full border-2 border-slate-600 hover:border-blue-500 transition pointer-events-none" 
+                   src="https://ui-avatars.com/api/?name=<%= current_user.email.split('@').first.capitalize %>&background=3b82f6&color=ffffff&bold=true" 
                    alt="User avatar">
+              <span class="text-sm font-medium pointer-events-none"><%= current_user.email.split('@').first.capitalize %></span>
+              <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
             </button>
             
-            <!-- Dropdown Menu -->
-            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-slate-700 rounded-lg shadow-lg border border-slate-600 z-50">
+            <div id="user-dropdown" onclick="event.stopPropagation()" class="hidden absolute right-0 mt-2 w-56 bg-slate-700 rounded-lg shadow-xl border border-slate-600 z-50">
               <div class="py-2">
-                <div class="px-4 py-2 text-sm text-slate-300 border-b border-slate-600">
-                  <%= current_user.email %>
+                <div class="px-4 py-3 border-b border-slate-600">
+                  <p class="text-sm text-slate-400">Conectado como</p>
+                  <p class="text-sm font-medium text-white truncate"><%= current_user.email %></p>
+                  <p class="text-xs text-blue-400 mt-1 capitalize">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-900 text-blue-300">
+                      <%= current_user.role %>
+                    </span>
+                  </p>
                 </div>
-                <%= link_to "Perfil", "#", class: "block px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" %>
-                <%= link_to "Configuración", edit_user_registration_path, class: "block px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" %>
-                <%= button_to "Cerrar sesión", destroy_user_session_path, method: :delete, 
-                    class: "block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-600 hover:text-red-300 transition duration-300" %>
+                
+                <%= link_to root_path, class: "flex items-center px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" do %>
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                  </svg>
+                  Tienda
+                <% end %>
+                
+                <%= link_to edit_user_registration_path, class: "flex items-center px-4 py-2 text-sm text-slate-300 hover:bg-slate-600 hover:text-white transition duration-300" do %>
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  </svg>
+                  Mi cuenta
+                <% end %>
+                
+                <div class="border-t border-slate-600 my-1"></div>
+                
+                <%= button_to destroy_user_session_path, method: :delete, 
+                    class: "flex items-center w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-slate-600 hover:text-red-300 transition duration-300" do %>
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                  </svg>
+                  Cerrar sesión
+                <% end %>
               </div>
             </div>
           </div>
         <% else %>
           <div class="flex items-center space-x-3">
-            <%= link_to "Iniciar sesión", new_user_session_path, 
-                class: "text-slate-400 hover:text-white font-medium transition duration-300" %>
-            <%= link_to "Registrarse", new_user_registration_path, 
-                class: "bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-300" %>
+            <%= link_to new_user_session_path, 
+                class: "text-slate-300 hover:text-white font-medium transition duration-300" do %>
+              Iniciar sesión
+            <% end %>
+            
+            <%= link_to new_user_registration_path, 
+                class: "bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-medium transition duration-300" do %>
+              Registrarse
+            <% end %>
           </div>
         <% end %>
       </div>
+      
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" type="button" 
+                onclick="event.stopPropagation(); document.getElementById('mobile-menu').classList.toggle('hidden'); document.getElementById('menu-icon').classList.toggle('hidden'); document.getElementById('close-icon').classList.toggle('hidden');"
+                class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+          <svg id="menu-icon" class="block h-6 w-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="hidden h-6 w-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
     </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" onclick="event.stopPropagation()" class="hidden md:hidden bg-slate-900 border-t border-slate-700">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <% if user_signed_in? %>
+        <!-- User info -->
+        <div class="px-3 py-3 border-b border-slate-700 mb-2">
+          <div class="flex items-center">
+            <img class="h-10 w-10 rounded-full border-2 border-slate-600" 
+                 src="https://ui-avatars.com/api/?name=<%= current_user.email.split('@').first.capitalize %>&background=3b82f6&color=ffffff&bold=true" 
+                 alt="User avatar">
+            <div class="ml-3">
+              <p class="text-sm font-medium text-white"><%= current_user.email %></p>
+              <p class="text-xs text-slate-400 capitalize"><%= current_user.role %></p>
+            </div>
+          </div>
+        </div>
+        
+        <% if current_user.administrador? || current_user.gerente? || current_user.empleado? %>
+          <%= link_to productos_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+            Productos
+          <% end %>
+          
+          <%= link_to venta_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+            Ventas
+          <% end %>
+          
+          <% if current_user.administrador? || current_user.gerente? %>
+            <%= link_to usuarios_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+              Usuarios
+            <% end %>
+          <% end %>
+          
+          <%= link_to autors_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+            Artistas
+          <% end %>
+          
+          <%= link_to categoria_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+            Categorías
+          <% end %>
+          
+          <div class="border-t border-slate-700 my-2"></div>
+        <% end %>
+        
+        <%= link_to root_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+          Tienda
+        <% end %>
+        
+        <%= link_to edit_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+          Mi cuenta
+        <% end %>
+        
+        <%= button_to destroy_user_session_path, method: :delete, 
+            class: "block w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-slate-700" do %>
+          Cerrar sesión
+        <% end %>
+      <% else %>
+        <%= link_to new_user_session_path, class: "block px-3 py-2 rounded-md text-base font-medium text-slate-300 hover:text-white hover:bg-slate-700" do %>
+          Iniciar sesión
+        <% end %>
+        
+        <%= link_to new_user_registration_path, class: "block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white hover:bg-blue-700" do %>
+          Registrarse
+        <% end %>
+      <% end %>
     </div>
   </div>
 </nav>
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  const userMenuButton = document.getElementById('user-menu-button');
-  const userDropdown = document.getElementById('user-dropdown');
-  
-  // User dropdown toggle
-  if (userMenuButton && userDropdown) {
-    userMenuButton.addEventListener('click', function(e) {
-      e.stopPropagation();
-      userDropdown.classList.toggle('hidden');
-    });
+  // Global click handler to close menus (only add once)
+  if (!window.navbarClickHandlerAdded) {
+    window.navbarClickHandlerAdded = true;
     
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function() {
-      userDropdown.classList.add('hidden');
+    document.addEventListener('click', function(e) {
+      const userDropdown = document.getElementById('user-dropdown');
+      const userMenuButton = document.getElementById('user-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const menuIcon = document.getElementById('menu-icon');
+      const closeIcon = document.getElementById('close-icon');
+      
+      // Close user dropdown if clicking outside
+      if (userDropdown && !userDropdown.classList.contains('hidden')) {
+        if (userMenuButton && !userMenuButton.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+      }
+      
+      // Close mobile menu if clicking outside
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        if (mobileMenuButton && !mobileMenuButton.contains(e.target) && !mobileMenu.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+          if (menuIcon && closeIcon) {
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          }
+        }
+      }
     });
   }
-});
 </script>
+
