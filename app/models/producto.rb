@@ -41,6 +41,31 @@ class Producto < ApplicationRecord
     ["autor", "categoria"]
   end
   
+  # Métodos públicos
+  def imagen_portada
+    imagenes.first if imagenes.attached?
+  end
+  
+  def productos_relacionados
+    Producto.activos
+            .where(categoria: categoria)
+            .where.not(id: id)
+            .where('stock > ?', 0)
+            .order('RANDOM()')
+  end
+  
+  def disponible?
+    fecha_baja.nil? && stock > 0
+  end
+  
+  def soft_delete!
+    update(fecha_baja: Date.current, stock: 0)
+  end
+  
+  def restaurar!
+    update(fecha_baja: nil)
+  end
+  
   private
   
   def set_fecha_ingreso
