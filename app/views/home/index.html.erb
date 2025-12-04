@@ -99,17 +99,7 @@
     <% end %>
   </div>
   
-  <!-- Paginación -->
-  <div class="flex justify-center mt-8">
-    <%= will_paginate @productos, 
-        container: true,
-        class: "flex gap-2",
-        inner_window: 2,
-        outer_window: 0,
-        previous_label: "← Anterior",
-        next_label: "Siguiente →",
-        page_links: true %>
-  </div>
+  <%= render partial: "shared/paginacion", locals: { coleccion: @productos } %>
 <% else %>
   <!-- Mensaje cuando no hay productos -->
   <div class="text-center py-16">
