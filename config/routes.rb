@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :categoria
   resources :autors
   resources :usuarios
+  
   get "home/index"
   devise_for :users, path: 'cuentas', path_names: {
   sign_in: 'iniciar_sesion',
