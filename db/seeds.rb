@@ -2,6 +2,8 @@ require 'open-uri'
 
 # Limpiar datos existentes (opcional, ten cuidado en producción)
 puts "Limpiando base de datos..."
+DetalleVentum.destroy_all
+Ventum.destroy_all
 Producto.destroy_all
 Categorium.destroy_all
 Autor.destroy_all
@@ -28,13 +30,6 @@ gerente = User.create!(
   password: "123456789",
   password_confirmation: "123456789",
   role: "gerente"
-)
-
-cliente = User.create!(
-  email: "cliente@gmail.com",
-  password: "123456789",
-  password_confirmation: "123456789",
-  role: "cliente"
 )
 
 puts "Usuarios creados: #{User.count}"
