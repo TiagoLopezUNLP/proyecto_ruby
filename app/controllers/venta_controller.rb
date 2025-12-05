@@ -1,6 +1,6 @@
 class VentaController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_ventum, only: %i[ show edit update destroy ]
+  before_action :set_ventum, only: %i[ show edit update destroy factura ]
 
   # GET /venta or /venta.json
   def index
@@ -157,20 +157,46 @@ class VentaController < ApplicationController
     @ventum.destroy!
 
     respond_to do |format|
-      format.html { redirect_to venta_index_path, status: :see_other, notice: "Venta eliminada." }
+      format.html { redirect_to venta_path status: :see_other, notice: "Venta eliminada." }
       format.json { head :no_content }
     end
   end
 
-  private
-    def set_ventum
-      @ventum = Ventum.find(params[:id])
+
+  def factura
+
+    respond_to do |format|
+      format.pdf do
+        pdf = FacturaPdf.new(@ventum)
+        send_data pdf.render,
+                  filename: "factura_#{@ventum.id.to_s.rjust(6, '0')}.pdf",
+                  type: 'application/pdf',
+                  disposition: 'inline' # 'attachment' para descargar, el inline para ver en el navegador
+      end
     end
+  end
+
+
+
+  private
+  def set_ventum
+    @ventum = Ventum.find(params[:id])
+
+    rescue ActiveRecord::RecordNotFound
+      respond_to do |format|
+        format.html { redirect_to venta_path, alert: "Venta no encontrada" }
+        format.pdf do
+          redirect_to venta_path,
+                      alert: "La venta con ID #{params[:id]} no fue encontrada."
+        end
+      end
+      return false
+  end
 
     def ventum_params
       params.require(:ventum).permit(:NyA_comprador, :dni_comprador)
     end
-    
+
     def calcular_total
       total = 0
       session[:carrito].each do |item|

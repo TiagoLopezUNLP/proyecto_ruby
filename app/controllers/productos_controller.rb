@@ -108,6 +108,12 @@ end
     # Use callbacks to share common setup or constraints between actions.
     def set_producto
       @producto = Producto.find(params[:id])
+
+      rescue ActiveRecord::RecordNotFound
+        respond_to do |format|
+          format.html { redirect_to productos_path, alert: "Producto no encontrado" }
+        end
+        return false
     end
 
     # Only allow a list of trusted parameters through.
