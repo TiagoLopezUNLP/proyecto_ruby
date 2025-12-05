@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       get 'datos_comprador', to: 'venta#datos_comprador'  # Paso 2: Datos del comprador
       post 'finalizar', to: 'venta#finalizar'  # Crear la venta
     end
+
+    member do
+      get 'factura'  # Uso member para porque necesito el ID de la venta
+    end
+
   end
   
   resources :imagens
