@@ -107,33 +107,33 @@ puts "Autores creados: #{Autor.count}"
 puts "Creando productos de prueba..."
 
 productos_data = [
-  { nombre: "Abbey Road", descripcion: "Álbum icónico de The Beatles lanzado en 1969", precio: 25.99, stock: 15, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Thriller", descripcion: "El álbum más vendido de todos los tiempos de Michael Jackson", precio: 29.99, stock: 20, tipo: "cd", estado: "nuevo" },
-  { nombre: "A Night at the Opera", descripcion: "Álbum clásico de Queen con Bohemian Rhapsody", precio: 22.50, stock: 10, tipo: "vinilo", estado: "usado" },
-  { nombre: "Legend", descripcion: "La mejor compilación de Bob Marley", precio: 18.99, stock: 25, tipo: "cd", estado: "nuevo" },
-  { nombre: "Kind of Blue", descripcion: "Obra maestra del jazz de Miles Davis", precio: 24.99, stock: 8, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "All Eyez on Me", descripcion: "Álbum doble de Tupac Shakur", precio: 19.99, stock: 12, tipo: "cd", estado: "usado" },
-  { nombre: "Discovery", descripcion: "Segundo álbum de estudio de Daft Punk", precio: 27.99, stock: 18, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Un Verano Sin Ti", descripcion: "Álbum de reggaeton de Bad Bunny", precio: 21.99, stock: 30, tipo: "cd", estado: "nuevo" },
-  { nombre: "21", descripcion: "Álbum ganador del Grammy de Adele", precio: 16.99, stock: 22, tipo: "cd", estado: "nuevo" },
-  { nombre: "The Eminem Show", descripcion: "Cuarto álbum de estudio de Eminem", precio: 20.99, stock: 14, tipo: "cd", estado: "usado" },
-  { nombre: "Nevermind", descripcion: "Álbum revolucionario de Nirvana con Smells Like Teen Spirit", precio: 23.99, stock: 17, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Lemonade", descripcion: "Álbum visual de Beyoncé", precio: 24.99, stock: 19, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Elvis Presley", descripcion: "Álbum debut homónimo del Rey del Rock", precio: 28.99, stock: 7, tipo: "vinilo", estado: "usado" },
-  { nombre: "Like a Virgin", descripcion: "Segundo álbum de estudio de Madonna", precio: 17.99, stock: 13, tipo: "cd", estado: "nuevo" },
-  { nombre: "The Dark Side of the Moon", descripcion: "Álbum conceptual de Pink Floyd", precio: 26.99, stock: 11, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Back in Black", descripcion: "Álbum de AC/DC dedicado a Bon Scott", precio: 22.99, stock: 16, tipo: "vinilo", estado: "usado" },
-  { nombre: "Rumours", descripcion: "Álbum clásico de Fleetwood Mac", precio: 21.99, stock: 9, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "The Wall", descripcion: "Ópera rock de Pink Floyd", precio: 31.99, stock: 6, tipo: "vinilo", estado: "nuevo" },
-  { nombre: "Hotel California", descripcion: "Quinto álbum de The Eagles", precio: 19.99, stock: 14, tipo: "cd", estado: "usado" },
-  { nombre: "Born to Run", descripcion: "Tercer álbum de Bruce Springsteen", precio: 23.99, stock: 10, tipo: "vinilo", estado: "nuevo" }
+  { nombre: "Abbey Road", descripcion: "Álbum icónico de The Beatles lanzado en 1969", precio: 25.99, stock: 15, tipo: "vinilo", estado: "nuevo", release_year: 1969 },
+  { nombre: "Thriller", descripcion: "El álbum más vendido de todos los tiempos de Michael Jackson", precio: 29.99, stock: 20, tipo: "cd", estado: "nuevo", release_year: 1982 },
+  { nombre: "A Night at the Opera", descripcion: "Álbum clásico de Queen con Bohemian Rhapsody", precio: 22.50, stock: 10, tipo: "vinilo", estado: "usado", release_year: 1975 },
+  { nombre: "Legend", descripcion: "La mejor compilación de Bob Marley", precio: 18.99, stock: 25, tipo: "cd", estado: "nuevo", release_year: 1984 },
+  { nombre: "Kind of Blue", descripcion: "Obra maestra del jazz de Miles Davis", precio: 24.99, stock: 8, tipo: "vinilo", estado: "nuevo", release_year: 1959 },
+  { nombre: "All Eyez on Me", descripcion: "Álbum doble de Tupac Shakur", precio: 19.99, stock: 12, tipo: "cd", estado: "usado", release_year: 1996 },
+  { nombre: "Discovery", descripcion: "Segundo álbum de estudio de Daft Punk", precio: 27.99, stock: 18, tipo: "vinilo", estado: "nuevo", release_year: 2001 },
+  { nombre: "Un Verano Sin Ti", descripcion: "Álbum de reggaeton de Bad Bunny", precio: 21.99, stock: 30, tipo: "cd", estado: "nuevo", release_year: 2022 },
+  { nombre: "21", descripcion: "Álbum ganador del Grammy de Adele", precio: 16.99, stock: 22, tipo: "cd", estado: "nuevo", release_year: 2011 },
+  { nombre: "The Eminem Show", descripcion: "Cuarto álbum de estudio de Eminem", precio: 20.99, stock: 14, tipo: "cd", estado: "usado", release_year: 2002 },
+  { nombre: "Nevermind", descripcion: "Álbum revolucionario de Nirvana con Smells Like Teen Spirit", precio: 23.99, stock: 17, tipo: "vinilo", estado: "nuevo", release_year: 1991 },
+  { nombre: "Lemonade", descripcion: "Álbum visual de Beyoncé", precio: 24.99, stock: 19, tipo: "vinilo", estado: "nuevo", release_year: 2016 },
+  { nombre: "Elvis Presley", descripcion: "Álbum debut homónimo del Rey del Rock", precio: 28.99, stock: 7, tipo: "vinilo", estado: "usado", release_year: 1956 },
+  { nombre: "Like a Virgin", descripcion: "Segundo álbum de estudio de Madonna", precio: 17.99, stock: 13, tipo: "cd", estado: "nuevo", release_year: 1984 },
+  { nombre: "The Dark Side of the Moon", descripcion: "Álbum conceptual de Pink Floyd", precio: 26.99, stock: 11, tipo: "vinilo", estado: "nuevo", release_year: 1973 },
+  { nombre: "Back in Black", descripcion: "Álbum de AC/DC dedicado a Bon Scott", precio: 22.99, stock: 16, tipo: "vinilo", estado: "usado", release_year: 1980 },
+  { nombre: "Rumours", descripcion: "Álbum clásico de Fleetwood Mac", precio: 21.99, stock: 9, tipo: "vinilo", estado: "nuevo", release_year: 1977 },
+  { nombre: "The Wall", descripcion: "Ópera rock de Pink Floyd", precio: 31.99, stock: 6, tipo: "vinilo", estado: "nuevo", release_year: 1979 },
+  { nombre: "Hotel California", descripcion: "Quinto álbum de The Eagles", precio: 19.99, stock: 14, tipo: "cd", estado: "usado", release_year: 1976 },
+  { nombre: "Born to Run", descripcion: "Tercer álbum de Bruce Springsteen", precio: 23.99, stock: 10, tipo: "vinilo", estado: "nuevo", release_year: 1975 }
 ]
 
 productos_data.each_with_index do |data, index|
   # Seleccionar autor y categoría aleatoriamente
   autor = Autor.all.sample
   categoria = Categorium.all.sample
-  
+
   producto = Producto.create!(
     nombre: data[:nombre],
     descripcion: data[:descripcion],
@@ -141,6 +141,7 @@ productos_data.each_with_index do |data, index|
     stock: data[:stock],
     tipo: data[:tipo],
     estado: data[:estado],
+    release_year: data[:release_year],
     autor: autor,
     categoria: categoria
   )

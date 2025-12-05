@@ -123,6 +123,7 @@ end
         :descripcion,
         :precio,
         :stock,
+        :release_year,
         :fecha_ingreso,
         :fecha_modificacion,
         :fecha_baja,

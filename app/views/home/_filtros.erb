@@ -76,18 +76,18 @@
             min: 0,
             step: 0.01 %>
       </div>
-      
-      <!-- Solo productos con stock -->
-      <div class="flex items-end">
-        <label class="flex items-center space-x-3 cursor-pointer h-[42px]">
-          <%= f.check_box :stock_gt, 
-              { class: "w-5 h-5 bg-slate-700 border-slate-600 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-800" }, 
-              '0', '' %>
-          <span class="text-sm font-medium text-slate-300">Solo con stock disponible</span>
-        </label>
+
+      <!-- Búsqueda por año de lanzamiento -->
+      <div>
+        <%= f.label :release_year_eq, "Año de lanzamiento", class: "block text-sm font-medium text-slate-300 mb-2" %>
+        <%= f.search_field :release_year_eq,
+                           class: "w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+                           placeholder: "Ej: 1999",
+                           min: 1900,
+                           max: Time.current.year %>
       </div>
     </div>
-    
+
     <!-- Botones de acción -->
     <div class="flex flex-wrap gap-3 pt-2">
       <%= f.submit "Buscar", 
@@ -95,7 +95,19 @@
       <%= link_to "Limpiar filtros", 
           root_path, 
           class: "px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition duration-300 border border-slate-600" %>
-      
+
+      <!-- Solo productos con stock -->
+      <div class="flex items-end">
+        <label class="flex items-center space-x-3 cursor-pointer h-[42px]">
+          <%= f.check_box :stock_gt,
+                          { class: "w-5 h-5 bg-slate-700 border-slate-600 rounded text-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-slate-800" },
+                          '0', '' %>
+          <span class="text-sm font-medium text-slate-300">Solo con stock disponible</span>
+        </label>
+      </div>
+
+
+
       <!-- Ordenamiento -->
       <div class="ml-auto flex items-center gap-3">
         <%= f.label :s, "Ordenar por:", class: "text-sm font-medium text-slate-300" %>

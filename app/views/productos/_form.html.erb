@@ -50,6 +50,20 @@
         <p class="text-xs text-slate-500">Máximo 500 caracteres</p>
       </div>
 
+      <div class="space-y-2">
+        <%= form.label :release_year, class: "block text-sm font-medium text-slate-300" do %>
+          Año de Creación <span class="text-red-400">*</span>
+        <% end %>
+        <%= form.number_field :release_year,
+            required: true,
+            min: 1900,
+            max: Date.current.year,
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-3 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition",
+            placeholder: "Año de creación (ej: 1999)" %>
+        <p class="text-xs text-slate-500">Entre 1900 y <%= Date.current.year %></p>
+      </div>
+
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="space-y-2">
           <%= form.label :precio, class: "block text-sm font-medium text-slate-300" do %>

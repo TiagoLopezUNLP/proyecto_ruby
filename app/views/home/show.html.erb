@@ -142,6 +142,18 @@
         <% end %>
       </div>
 
+      <!-- Año de lanzamiento -->
+      <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
+        <h3 class="text-xl font-bold text-white mb-3">Año de lanzamiento</h3>
+        <% if @producto.release_year.present? %>
+          <p class="text-slate-300 leading-relaxed"><%= @producto.release_year %></p>
+        <% else %>
+          <p class="text-slate-500 italic">No disponible</p>
+        <% end %>
+      </div>
+
+
+
       <!-- Descripción -->
       <div class="bg-slate-800 rounded-lg p-6 border border-slate-700">
         <h3 class="text-xl font-bold text-white mb-3">Descripción</h3>

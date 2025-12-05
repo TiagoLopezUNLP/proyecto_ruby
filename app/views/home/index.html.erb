@@ -78,13 +78,20 @@
               </svg>
               <%= producto.autor.nombre %>
             </p>
-            
+
             <% if producto.categoria.present? %>
               <p class="text-slate-500 text-xs mb-3">
                 Categoria: <%= producto.categoria.nombre %>
               </p>
             <% end %>
-            
+
+            <% if producto.release_year.present? %>
+              <p class="text-slate-500 text-xs mb-3">
+                Año de lanzamiento : <%= producto.release_year %>
+              </p>
+            <% end %>
+
+
             <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-700">
               <span class="text-2xl font-bold text-blue-400">
                 $<%= number_with_delimiter(producto.precio, delimiter: '.') %>

@@ -13,6 +13,7 @@ class Producto < ApplicationRecord
   validates :nombre, presence: true
   validates :precio, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :stock, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :release_year, numericality: { only_integer: true, greater_than_or_equal_to: 1900, less_than_or_equal_to: Date.current.year }, allow_nil: true
   
   # Validaciones de Active Storage
   validates :imagenes, 
@@ -33,7 +34,7 @@ class Producto < ApplicationRecord
   
   # Definir atributos buscables para Ransack
   def self.ransackable_attributes(auth_object = nil)
-    ["nombre", "descripcion", "precio", "stock", "tipo", "estado", "autor_id", "categoria_id", "created_at", "updated_at"]
+    ["nombre", "descripcion", "precio", "stock", "tipo", "estado", "autor_id", "categoria_id", "created_at", "updated_at", "release_year"]
   end
 
   # Definir asociaciones buscables para Ransack

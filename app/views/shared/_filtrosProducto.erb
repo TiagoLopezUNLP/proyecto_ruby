@@ -1,6 +1,6 @@
 <div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 shadow-2xl p-6 mb-8">
   <%= search_form_for @q, url: path, method: :get, html: { class: "space-y-4" } do |f| %>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
       
       <!-- FILTRO POR NOMBRE -->
       <div class="space-y-2">
@@ -26,6 +26,15 @@
             class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm" %>
       </div>
 
+      <!-- FILTRO POR AÑO DE LANZAMIENTO -->
+      <div class="space-y-2">
+        <%= f.label :release_year_eq, "Año de Lanzamiento", class: "block text-sm font-medium text-slate-300" %>
+        <%= f.number_field :release_year_eq,
+            class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm",
+            placeholder: "Ej: 2020",
+            min: 1900,
+            max: Time.current.year %>
+      </div>
       <!-- FILTRO POR ESTADO -->
       <div class="space-y-2">
         <%= f.label :estado_eq, "Estado", class: "block text-sm font-medium text-slate-300" %>
