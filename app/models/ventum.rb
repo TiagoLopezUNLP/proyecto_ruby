@@ -3,7 +3,7 @@ class Ventum < ApplicationRecord
   has_many :detalle_ventas, class_name: 'DetalleVentum', foreign_key: 'venta_id', dependent: :destroy
   has_many :productos, through: :detalle_ventas
 
-  scope :activas, -> { where(cancelada: false) }
+  scope :activas, -> { where(cancelada: [nil,false]) }
   scope :canceladas, -> { where(cancelada: true) }
 
   def cancelar!
@@ -14,6 +14,10 @@ class Ventum < ApplicationRecord
       detalle_ventas.each do |detalle|
         producto = detalle.producto
         producto.update!(stock: producto.stock + detalle.cantidad)
+        # Reactivar producto si estaba dado de baja
+        if producto.fecha_baja.present?
+          producto.update!(fecha_baja: nil)
+        end
       end
       
       # Marcar como cancelada

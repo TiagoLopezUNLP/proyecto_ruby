@@ -62,8 +62,7 @@ sudo systemctl enable postgresql
 
 ```
 
-### 3. Instalar dependencias
-
+### 3.a Instalar dependencias:
 **Asegúrese de que los comandos que se usan a continuación estén en la ruta del proyecto**
 
 ### En Windows:
@@ -72,34 +71,30 @@ sudo systemctl enable postgresql
     - Descargar desde [rubyinstaller.org](https://rubyinstaller.org/)
     - Versión: 3.4.0 o superior
     - Marcar "Add Ruby to PATH"
-2. Instalar bundler y dependencias:
 
-```bash
-gem install bundler
-bundle install
-rails tailwindcss:install
-```
 
 ### En Ubuntu/Linux:
 
 ```bash
-# Instalar RVM para Ruby
-sudo apt-get install software-properties-common
-sudo apt-add-repository -y ppa:rael-gc/rvm
-sudo apt-get update
-sudo apt-get install rvm
-rvm install 3.4.0
-rvm use 3.4.0 --default
+# Actualizar sistema
+sudo apt update
+sudo apt upgrade -y
+# Instalar dependencias para Ruby
+sudo snap install ruby --classic
+echo 'export PATH="/snap/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
-# Instalar dependencias del sistema
 sudo apt-get install libpq-dev build-essential
 
-# Instalar bundler y gems
+```
+### 3.b Instalar bundler 
+
+```bash
 gem install bundler
 bundle install
 rails tailwindcss:install
-
 ```
+
 
 ### 4. Configurar base de datos
 
