@@ -1,7 +1,7 @@
 <!-- filepath: c:\Users\Tiago\ejemplo_ruby\app\views\shared\_paginacion.erb -->
 <% if coleccion.present? && coleccion.total_pages > 1 %>
     <!-- Versión móvil -->
-    <div class="flex flex-1 justify-between sm:hidden">
+    <div class="flex flex-1 justify-between sm:hidden mt-8">
       <% if coleccion.previous_page %>
         <%= link_to 'Anterior', url_for(page: coleccion.previous_page), 
             class: "relative inline-flex items-center rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-sm font-medium text-slate-300 hover:bg-slate-700 transition" %>
@@ -22,7 +22,7 @@
     </div>
     
     <!-- Versión escritorio -->
-     <div class="flex justify-center mt-8">
+     <div class="hidden sm:flex justify-center mt-8">
         <%= will_paginate @productos, 
             container: true,
             class: "flex gap-2",

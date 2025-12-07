@@ -2,12 +2,12 @@
 
 <div class="min-h-screen bg-slate-900 py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center mb-8">
+    <div class="mb-8">
       <div>
         <h1 class="text-3xl font-bold text-white">Categorías</h1>
         <p class="text-slate-400 mt-1">Gestiona los géneros musicales</p>
       </div>
-      <%= link_to new_categorium_path, class: "rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-2" do %>
+      <%= link_to new_categorium_path, class: "mt-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 inline-flex items-center gap-2" do %>
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
@@ -53,5 +53,6 @@
         <%= link_to "Crear Categoría", new_categorium_path, class: "mt-6 inline-flex items-center gap-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white transition" %>
       </div>
     <% end %>
+    <%= render partial: "shared/paginacion", locals: { coleccion: @categoria } %>
   </div>
 </div>

@@ -3,7 +3,7 @@ class CategoriaController < ApplicationController
 
   # GET /categoria or /categoria.json
   def index
-    @categoria = Categorium.all
+    @categoria = Categorium.all.order(nombre: :asc).paginate(page: params[:page], per_page: 20)
   end
 
   # GET /categoria/1 or /categoria/1.json

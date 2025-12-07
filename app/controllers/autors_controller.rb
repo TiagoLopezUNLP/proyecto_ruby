@@ -3,7 +3,7 @@ class AutorsController < ApplicationController
 
   # GET /autors or /autors.json
   def index
-    @autors = Autor.all
+    @autors = Autor.all.order(nombre: :asc).paginate(page: params[:page], per_page: 20)
   end
 
   # GET /autors/1 or /autors/1.json
