@@ -47,6 +47,7 @@ cd proyecto_ruby
 2. Durante la instalación, configurar:
     - Usuario: `postgres`
     - Contraseña: `admin`
+    - Database: `ejemplo`
     - Puerto: `5432`
 3. Verificar que el servicio PostgreSQL esté corriendo en Services
 
@@ -96,6 +97,7 @@ sudo apt-get install libpq-dev build-essential
 # Instalar bundler y gems
 gem install bundler
 bundle install
+rails tailwindcss:install
 
 ```
 
@@ -134,8 +136,8 @@ El script `db/seeds.rb` incluye:
 ### Usuarios predeterminados (creados por seeds.rb)
 
 - **Administrador**: admin@gmail.com / 123456789
-- **Gerente**:  empleado@gmail.com / 123456789
-- **Empleado**: gerente@gmail.com / 123456789
+- **Gerente**:  gerente@gmail.com / 123456789
+- **Empleado**: empleado@gmail.com / 123456789
 
 ---
 
