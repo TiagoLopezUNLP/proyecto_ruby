@@ -6,12 +6,12 @@
       </div>
     <% end %>
 
-    <div class="flex justify-between items-center mb-8">
+    <div class="mb-8">
       <div>
         <h1 class="text-3xl font-bold text-white">Productos</h1>
         <p class="text-slate-400 mt-1">Gestiona tu inventario de productos</p>
       </div>
-      <%= link_to new_producto_path, class: "rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 flex items-center gap-2" do %>
+      <%= link_to new_producto_path, class: "mt-4 rounded-xl bg-indigo-500 hover:bg-indigo-400 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition transform hover:-translate-y-0.5 inline-flex items-center gap-2" do %>
         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
@@ -55,6 +55,8 @@
                 <div>
                   <p class="text-xs text-slate-400 mb-1">Año de Lanzamiento</p>
                   <p class="text-sm font-medium text-white"><%= producto.release_year %></p>
+                </div>
+                
                 <div>
                   <p class="text-xs text-slate-400 mb-1">Stock</p>
                   <% if producto.stock > 10 %>
@@ -129,8 +131,5 @@
       </div>
     <% end %>
     <%= render partial: "shared/paginacion", locals: { coleccion: @productos } %>
-  </div>
-</div>
-
   </div>
 </div>
