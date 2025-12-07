@@ -4,7 +4,7 @@ class VentaController < ApplicationController
 
   # GET /venta or /venta.json
   def index
-    @venta = Ventum.all
+    @venta = Ventum.activas.order(created_at: :desc)
   end
 
   # GET /venta/1 or /venta/1.json
@@ -154,11 +154,16 @@ class VentaController < ApplicationController
 
   # DELETE /venta/1 or /venta/1.json
   def destroy
-    @ventum.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to venta_path status: :see_other, notice: "Venta eliminada." }
-      format.json { head :no_content }
+    if @ventum.cancelar!
+      respond_to do |format|
+        format.html { redirect_to venta_path, status: :see_other, notice: "Venta cancelada exitosamente. Stock restaurado." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to venta_path, status: :see_other, alert: "No se pudo cancelar la venta. Ya está cancelada." }
+        format.json { render json: { error: "Venta ya cancelada" }, status: :unprocessable_entity }
+      end
     end
   end
 
