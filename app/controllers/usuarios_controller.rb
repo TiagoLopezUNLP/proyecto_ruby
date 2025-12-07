@@ -4,6 +4,8 @@ class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
 
   def index
+    # Solo administradores y gerentes pueden ver el listado completo
+    authorize! :index, User
     @q = User.where.not(id: current_user.id).ransack(params[:q])
     @usuarios = @q.result(distinct: true).paginate(page: params[:page], per_page: 20)
   end
