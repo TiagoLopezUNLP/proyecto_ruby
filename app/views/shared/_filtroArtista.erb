@@ -1,0 +1,21 @@
+<div class="bg-slate-800/60 rounded-3xl border border-slate-700/60 shadow-lg p-6 mb-8">
+  <%= search_form_for @q, url: path, method: :get, html: { class: "space-y-4" } do |f| %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+      <!-- FILTRO POR NOMBRE -->
+      <div class="space-y-1 lg:col-span-4">
+        <%= f.label :nombre_cont, "Buscar por nombre", class: "block text-sm font-medium text-slate-300" %>
+        <%= f.search_field :nombre_cont,
+                           class: "w-full rounded-xl border border-slate-600 bg-slate-900/70 px-4 py-2 text-slate-100 placeholder-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/50 transition text-sm",
+                           placeholder: "Nombre del Artista" %>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="flex items-end space-x-4 lg:col-span-2 justify-end">
+        <%= link_to "Limpiar", path,
+                    class: "rounded-xl bg-slate-700 hover:bg-slate-600 px-5 py-2.5 text-sm font-medium text-white transition" %>
+        <%= f.submit "Filtrar",
+                     class: "rounded-xl bg-indigo-500 hover:bg-indigo-400 px-5 py-2.5 text-sm font-medium text-white shadow-indigo-500/30 transition" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -115,12 +115,12 @@ class FacturaPdf < Prawn::Document
 
 
     subtotal = @venta.total || 0
-    iva = subtotal * 0.19
+    iva = subtotal * 0.21
     total = subtotal + iva
 
     data = [
       ["<b>SUBTOTAL:</b>", "$#{number_with_delimiter(subtotal)}"],
-      ["<b>IVA (19%):</b>", "$#{number_with_delimiter(iva)}"],
+      ["<b>IVA (21%):</b>", "$#{number_with_delimiter(iva)}"],
       ["<b>TOTAL:</b>", "$#{number_with_delimiter(total)}"]
     ]
 
@@ -154,8 +154,19 @@ class FacturaPdf < Prawn::Document
 
   private
 
-  # Método para formatear números con puntos como separadores de miles
-  def number_with_delimiter(number)
-    number.to_i.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1.').reverse
-  end
+
+    # Método para formatear números con puntos como separadores de miles y 2 decimales
+    def number_with_delimiter(number)
+      # Convierte a float y formatea con 2 decimales
+      formatted = sprintf('%.2f', number.to_f)
+
+      # Separa la parte entera de los decimales
+      integer_part, decimal_part = formatted.split('.')
+
+      # Agrega puntos separadores de miles a la parte entera
+      integer_with_dots = integer_part.reverse.gsub(/(\d{3})(?=\d)/, '\\1.').reverse
+
+      # Une todo
+      "#{integer_with_dots},#{decimal_part}"
+    end
 end

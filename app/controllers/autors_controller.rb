@@ -1,9 +1,13 @@
 class AutorsController < ApplicationController
   before_action :set_autor, only: %i[ show edit update destroy ]
 
+
   # GET /autors or /autors.json
   def index
-    @autors = Autor.all.order(nombre: :asc).paginate(page: params[:page], per_page: 20)
+
+    @q = Autor.ransack(params[:q])
+    @autors = @q.result(distinct: true).order(:nombre).paginate(page: params[:page], per_page: 5)
+
   end
 
   # GET /autors/1 or /autors/1.json
@@ -49,22 +53,40 @@ class AutorsController < ApplicationController
 
   # DELETE /autors/1 or /autors/1.json
   def destroy
+    if @autor.productos.any?
+      redirect_to autors_path,
+                  alert: "No se puede eliminar el artista '#{@autor.nombre}' porque tiene #{@autor.productos.count} producto(s) asociado(s).",
+                  status: :see_other
+      return
+    end
+
     @autor.destroy!
 
     respond_to do |format|
-      format.html { redirect_to autors_path, notice: "Autor was successfully destroyed.", status: :see_other }
+      format.html { redirect_to autors_path, notice: "Artista eliminado exitosamente.", status: :see_other }
       format.json { head :no_content }
     end
   end
 
+
+
   private
+
+
     # Use callbacks to share common setup or constraints between actions.
     def set_autor
-      @autor = Autor.find(params.expect(:id))
-    end
+      @autor = Autor.find_by(id: params[:id])
+
+      unless @autor
+        redirect_to autors_path,
+                    alert: "El artista no existe o ha sido eliminado.",
+                    status: :see_other
+        return
+        end
+      end
 
     # Only allow a list of trusted parameters through.
     def autor_params
-      params.expect(autor: [ :nombre ])
+      params.require(:autor).permit(:nombre)
     end
 end
